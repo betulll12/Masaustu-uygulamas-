@@ -1,7 +1,7 @@
 # English Learning Asistant
 # Proje-3
 # PHYTON
-<img height="150" src="resim/image.png">
+<img height="150" src="resimler/image.png">
 
 # Proje Açıklaması
 --------------------
