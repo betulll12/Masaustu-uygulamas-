@@ -5,8 +5,7 @@
 
 # Proje Açıklaması
 --------------------
-
-
+<p>Bu proje, İngilizce öğrenme sürecini desteklemek amacıyla geliştirilmiş bir masaüstü uygulamasıdır. Uygulama, kullanıcıların kelime bilgilerini geliştirmelerine, gramer çalışmalarını takip etmelerine, quizlerle öğrenmelerini pekiştirmelerine ve ilerleme raporlarıyla gelişimlerini görmelerine olanak sağlar.<p>
 
 # Video
 ------------
