@@ -55,15 +55,15 @@ class AnaPencere(QMainWindow):
 
         icerik = QVBoxLayout()
 
-        buton1 = QPushButton('Kelime Ekle')
+        buton1 = QPushButton('Kelime Ekle 📖')
         buton1.clicked.connect(kelimeEkle)
         icerik.addWidget(buton1)
 
-        buton2 = QPushButton('Kelimeleri Listele')
+        buton2 = QPushButton('Kelimeleri Listele 📚')
         buton2.clicked.connect(kelimeListele)
         icerik.addWidget(buton2)
 
-        buton3 = QPushButton('Quiz Yap')
+        buton3 = QPushButton('Quiz Yap 📝')
         buton3.clicked.connect(quizYap)
         icerik.addWidget(buton3)
 
