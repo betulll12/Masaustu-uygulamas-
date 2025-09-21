@@ -1,11 +1,11 @@
-# English Learning Asistant
+# İngilizce Kelime Öğrenme Uygulaması
 # Proje-3
-# PHYTON
+# PYTHON
 <img height="150" src="resimler/image.png">
 
 # Proje Açıklaması
 --------------------
-<p>Bu proje, İngilizce öğrenme sürecini desteklemek amacıyla geliştirilmiş bir masaüstü uygulamasıdır. Uygulama, kullanıcıların kelime bilgilerini geliştirmelerine, gramer çalışmalarını takip etmelerine, quizlerle öğrenmelerini pekiştirmelerine ve ilerleme raporlarıyla gelişimlerini görmelerine olanak sağlar.<p>
+<p>Bu proje, İngilizce öğrenme sürecini desteklemek amacıyla geliştirilmiş bir masaüstü uygulamasıdır. Uygulama, kullanıcıların kelime bilgilerini geliştirmelerine, quizle öğrendikleri kelimeleri pekiştirmelerine olanak sağlar.<p>
 
 # Video
 ------------
@@ -32,12 +32,3 @@
 -----------------
 
 
-
-
-# Grammer Çalışması
---------------------
-
-
-
-# İlerleme Raporu
--------------------
