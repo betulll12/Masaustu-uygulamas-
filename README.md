@@ -27,12 +27,4 @@
 <img height="300" src="resimler/anamenu.png">
 
 
-# Kelime Öğrenme
------------------
-
-
-
-# Quiz
------------------
-
 
