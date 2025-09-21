@@ -2,6 +2,7 @@
 # Proje-3
 # PYTHON
 <img height="150" src="resimler/image.png">
+<img height="150" src="resimler/image1.png">
 
 -----------------------------------------------
 
