@@ -22,7 +22,7 @@
 
 # Giriş Ekranı
 ----------------
-<p>Burada kullanıcı adı ve şifrenizi girerek sisteme giriş yapabilirsiniz ya da kayıtlı değilseniz kullanıcı adı ve şifre yazarak kayıt olabilirsiniz<p>
+<p>Burada kullanıcı adı ve şifrenizi girerek sisteme giriş yapabilirsiniz ya da kayıtlı değilseniz kullanıcı adı ve şifre yazarak kayıt olabilirsiniz.<p>
 <img height="300" src="resimler/girisekranı.png">
 
 
@@ -31,5 +31,10 @@
 <p>Burada istediğiniz kelimeleri anlamlarıyla ekleyebilir ve eklediğiniz kelimeleri listeleyebilir ve quiz yapabilirsiniz.<p>
 <img height="300" src="resimler/anamenu.png">
 
+# Kelime Ekle
+--------------
+<p>Burada eklemek istediğiniz kelimenini önce ingilizcesini sonra türkçesini yazıyorsunuz.<p>
+<img height="300" src="resimler/1.png">
+<img height="300" src="resimler/2.png">
 
 
