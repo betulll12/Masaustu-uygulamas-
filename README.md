@@ -37,4 +37,13 @@
 <img height="300" src="resimler/1.png">
 <img height="300" src="resimler/2.png">
 
+# Listele
+-----------
+<p>Burada girdiğiniz kelimemeleri listeleyebilirsiniz.<p>
+<img height="300" src="resimler/3.png">
 
+# Quiz
+--------
+<p>Burada size listedeki ingilizce kelimelerden herhangi birisi çıkıyor ve türkçesini soruyor cevabınıza göre doğru veya yanlış yazıyor.<p>
+<img height="300" src="resimler/4.png">
+<img height="300" src="resimler/5.png">
