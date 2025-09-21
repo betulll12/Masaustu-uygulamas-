@@ -18,13 +18,13 @@
 # Giriş Ekranı
 ----------------
 <p>Burada kullanıcı adı ve şifrenizi girerek sisteme giriş yapabilirsiniz ya da kayıtlı değilseniz kullanıcı adı ve şifre yazarak kayıt olabilirsiniz<p>
-<img height="150" src="resimler/girisekranı.png">
+<img height="300" src="resimler/girisekranı.png">
 
 
 # Ana Menü
 --------------
 <p>Burada istediğiniz kelimeleri anlamlarıyla ekleyebilir ve eklediğiniz kelimeleri listeleyebilir ve quiz yapabilirsiniz.<p>
-<img height="150" src="resimler/anamenu.png">
+<img height="300" src="resimler/anamenu.png">
 
 
 # Kelime Öğrenme
