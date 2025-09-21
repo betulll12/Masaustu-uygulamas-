@@ -1,91 +1,127 @@
-from PyQt6.QtWidgets import (QMainWindow, QVBoxLayout, QLabel, QPushButton, QWidget)
-from PyQt6.QtGui import QFont
-from PyQt6.QtCore import Qt
-from moduller.word import WordWindow
-from moduller.quiz import QuizWindow
-from moduller.grammer_calismasi import GramerWindow
-from moduller.ilerleme_raporu import IlerlemeWindow
+# -------------------------------------
+# Veri tabanı bağlantısı
+import mysql.connector
+
+try:
+    vtb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="1234"
+    )
+    secilen = vtb.cursor()
+    secilen.execute("CREATE DATABASE IF NOT EXISTS ots")
+    secilen.execute("USE ots")
+    print("Bağlantı tamam ✅")
+except:
+    print("Veritabanına bağlanırken bir hata oluştu.")
+
+# -------------------------------------
+from PyQt6.QtWidgets import *
 
 class AnaPencere(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("English Learning Assistant - Ana Menü")
-        self.setFixedSize(400, 350)
+        self.setWindowTitle("İngilizce Kelime Öğrenme")
 
-        # Ana layout
+        def kelimeEkle():
+            kelime_eng, ok1 = QInputDialog.getText(self, "Kelime Ekle", "İngilizce:")
+            kelime_tr, ok2 = QInputDialog.getText(self, "Kelime Ekle", "Türkçe:")
+            if ok1 and ok2 and kelime_eng and kelime_tr:
+                secilen.execute("INSERT INTO kelimeler (ingilizce, turkce) VALUES (%s, %s)", 
+                                (kelime_eng, kelime_tr))
+                vtb.commit()
+                QMessageBox.information(self, "Bilgi", "Kelime başarıyla eklendi ✅")
+
+        def kelimeListele():
+            secilen.execute("SELECT * FROM kelimeler")
+            veriler = secilen.fetchall()
+            text = ""
+            for row in veriler:
+                text += f"{row[1]} - {row[2]}\n"
+            QMessageBox.information(self, "Kelimeler", text if text else "Henüz kelime yok!")
+
+        def quizYap():
+            secilen.execute("SELECT ingilizce, turkce FROM kelimeler ORDER BY RAND() LIMIT 1")
+            soru = secilen.fetchone()
+            if not soru:
+                QMessageBox.warning(self, "Uyarı", "Önce kelime eklemelisin!")
+                return
+            cevap, ok = QInputDialog.getText(self, "Quiz", f"{soru[0]} kelimesinin Türkçesi nedir?")
+            if ok:
+                if cevap.lower() == soru[1].lower():
+                    QMessageBox.information(self, "Sonuç", "Doğru ✅")
+                else:
+                    QMessageBox.information(self, "Sonuç", f"Yanlış ❌ Doğru cevap: {soru[1]}")
+
+        icerik = QVBoxLayout()
+
+        buton1 = QPushButton('Kelime Ekle')
+        buton1.clicked.connect(kelimeEkle)
+        icerik.addWidget(buton1)
+
+        buton2 = QPushButton('Kelimeleri Listele')
+        buton2.clicked.connect(kelimeListele)
+        icerik.addWidget(buton2)
+
+        buton3 = QPushButton('Quiz Yap')
+        buton3.clicked.connect(quizYap)
+        icerik.addWidget(buton3)
+
+        araclar = QWidget()
+        araclar.setLayout(icerik)
+        self.setCentralWidget(araclar)
+
+# -------------------------------------
+class GirisEkrani(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Kelime Uygulaması - Giriş")
+        self.setFixedWidth(300)
+        self.setFixedHeight(200)
+
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(QLabel("Kullanıcı adı:"))
+        self.ka = QLineEdit()
+        layout.addWidget(self.ka)
 
-        # Başlık
-        baslik = QLabel("📘 Ana Menü")
-        baslik.setFont(QFont("Arial", 18, QFont.Weight.Bold))
-        baslik.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(baslik)
-        layout.addWidget(QLabel("Bir seçenek seçiniz:"))
+        layout.addWidget(QLabel("Şifre:"))
+        self.sf = QLineEdit()
+        self.sf.setEchoMode(QLineEdit.EchoMode.Password)
+        layout.addWidget(self.sf)
 
-        # Buton ayar fonksiyonu
-        def ayarla_buton(buton, renk="#2196F3"):
-            buton.setFixedWidth(200)
-            buton.setStyleSheet(f"""
-                QPushButton {{
-                    background-color: {renk};
-                    color: white;
-                    border-radius: 10px;
-                    font-size: 14px;
-                    padding: 8px;
-                }}
-                QPushButton:hover {{
-                    background-color: #1976D2;
-                }}
-            """)
+        btn_giris = QPushButton("Giriş yap")
+        btn_giris.clicked.connect(self.kontrol)
+        layout.addWidget(btn_giris)
 
-        # Kelime Öğren
-        buton_kelime = QPushButton("📚 Kelime Öğrenme")
-        ayarla_buton(buton_kelime, "#4CAF50")
-        buton_kelime.clicked.connect(self.kelime_ekrani)
-        layout.addWidget(buton_kelime, alignment=Qt.AlignmentFlag.AlignCenter)
+        btn_kayit = QPushButton("Kayıt ol")
+        btn_kayit.clicked.connect(self.kayitOl)
+        layout.addWidget(btn_kayit)
 
-        # Quiz
-        buton_quiz = QPushButton("📝 Quiz Yap")
-        ayarla_buton(buton_quiz, "#FF9800")
-        buton_quiz.clicked.connect(self.quiz_ekrani)
-        layout.addWidget(buton_quiz, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        # Gramer
-        buton_gramer = QPushButton("📖 Gramer Çalışması")
-        ayarla_buton(buton_gramer, "#9C27B0")
-        buton_gramer.clicked.connect(self.gramer_ekrani)
-        layout.addWidget(buton_gramer, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        # İlerleme
-        buton_ilerleme = QPushButton("📊 İlerleme Raporu")
-        ayarla_buton(buton_ilerleme, "#F44336")
-        buton_ilerleme.clicked.connect(self.ilerleme_ekrani)
-        layout.addWidget(buton_ilerleme, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        # Çıkış
-        buton_cikis = QPushButton("❌ Çıkış")
-        ayarla_buton(buton_cikis, "#607D8B")
-        buton_cikis.clicked.connect(self.close)
-        layout.addWidget(buton_cikis, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        # Central widget
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+        self.show()
 
-    def kelime_ekrani(self):
-        self.word_window = WordWindow()
-        self.word_window.show()
+    def kontrol(self):
+        secilen.execute("SELECT * FROM kullanicilar WHERE username=%s AND password=%s", 
+                        (self.ka.text(), self.sf.text()))
+        kullanici = secilen.fetchone()
+        if kullanici:
+            self.anaekran = AnaPencere()
+            self.anaekran.show()
+            self.close()
+        else:
+            QMessageBox.warning(self, "Hata", "Kullanıcı adı veya şifre yanlış!")
 
-    def quiz_ekrani(self):
-        self.quiz_window = QuizWindow()
-        self.quiz_window.show()
+    def kayitOl(self):
+        secilen.execute("INSERT INTO kullanicilar (username, password) VALUES (%s, %s)", 
+                        (self.ka.text(), self.sf.text()))
+        vtb.commit()
+        QMessageBox.information(self, "Bilgi", "Kayıt başarılı ✅ Artık giriş yapabilirsiniz.")
 
-    def gramer_ekrani(self):
-        self.gramer_window = GramerWindow()
-        self.gramer_window.show()
-
-    def ilerleme_ekrani(self):
-        self.ilerleme_window = IlerlemeWindow()
-        self.ilerleme_window.show()
+# -------------------------------------
+app = QApplication([])
+pencere = GirisEkrani()
+pencere.show()
+app.exec()
