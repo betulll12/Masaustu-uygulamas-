@@ -1,53 +1,62 @@
 import mysql.connector
-
-try:
-  vtb_ogrenci = mysql.connector.connect( # vtb veri tabani baglantisi
-    host="localhost", # Server/Veritabanı sistemi (instance) adı.
-    user="root", # Veritabanı kullanıcı adı
-    password="1234", # Veritabanı sistemi(instance) şifresi
-    database="ots"
-  )
-  secilen_ogr = vtb_ogrenci.cursor()
-  secilen_ogr.execute("create table if not exists ogrenciler(id int, ad varchar(22), sinif varchar(10))")
-#   vtlistesi = secilen.fetchall()
-  print("Bağlantı tamam.")
-except:
-  print("Veritabanına bağlanırken bir hata oluştu.")
-
-
 from PyQt6.QtWidgets import *
+
+# Veritabanı bağlantısı
+try:
+    vtb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="1234",
+        database="ots"
+    )
+    cursor = vtb.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) UNIQUE,
+            password VARCHAR(50)
+        )
+    """)
+    print("Bağlantı tamam.")
+except Exception as e:
+    print("Veritabanına bağlanırken hata:", e)
+
 
 class KayitPenceresi(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Öğrenci Kayıt")
+        self.setWindowTitle("Kayıt Ol")
 
         icerik = QVBoxLayout()
 
-        icerik.addWidget(QLabel("Adı: "))
-        self.adkutusu = QLineEdit()
-        icerik.addWidget(self.adkutusu)
-        
+        icerik.addWidget(QLabel("Kullanıcı Adı:"))
+        self.username_input = QLineEdit()
+        icerik.addWidget(self.username_input)
 
-        icerik.addWidget(QLabel("Sınıfı: "))
-        self.sinifkutusu = QLineEdit()
-        icerik.addWidget(self.sinifkutusu)
-        
+        icerik.addWidget(QLabel("Şifre:"))
+        self.password_input = QLineEdit()
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        icerik.addWidget(self.password_input)
 
-        buton1 = QPushButton("Kaydet")
-        icerik.addWidget(buton1)
-        buton1.clicked.connect(self.kaydetme)
+        kaydet_btn = QPushButton("Kayıt Ol")
+        kaydet_btn.clicked.connect(self.kaydet)
+        icerik.addWidget(kaydet_btn)
 
         araclar = QWidget()
         araclar.setLayout(icerik)
         self.setCentralWidget(araclar)
 
-    def kaydetme(self):
-        self.ad = self.adkutusu.text()
-        self.sinif = self.sinifkutusu.text()
-        print(f"Kaydedilecek bilgiler: {self.ad}, {self.sinif}")
-        # self.label1.setText("yeni metin")
-        # self.label1.setText(self.label1.text()+self.yazmakutusu.text()*2)
-        secilen_ogr.execute(f"insert into ogrenciler(ad,sinif) values('{self.ad}','{self.sinif}')")
-        vtb_ogrenci.commit()
-        # self.label1.setText("Sonuç : "+str((int(self.yazmakutusu.text())*2)))
+    def kaydet(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        if not username or not password:
+            QMessageBox.warning(self, "Hata", "Kullanıcı adı ve şifre boş olamaz!")
+            return
+
+        try:
+            cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+            vtb.commit()
+            QMessageBox.information(self, "Başarılı", "Kayıt tamamlandı!")
+        except mysql.connector.Error as e:
+            QMessageBox.warning(self, "Hata", f"Kayıt yapılamadı: {e}")
