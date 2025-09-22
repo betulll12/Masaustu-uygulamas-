@@ -12,9 +12,10 @@
 
 # Video
 ----------------
+<a href="https://drive.google.com/file/d/1r6uVxfN2YfXU7WrKv8K1x0WbCcTKQAWF/view?usp=sharing">
+<p>Projeyi anlatan videoya ulaşmak için tıklayınız.<p>
 
-
-
+</a>
 
 # Exe Dosyası
 ----------------
