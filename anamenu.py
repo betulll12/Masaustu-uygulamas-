@@ -27,10 +27,13 @@ class AnaPencere(QMainWindow):
             kelime_eng, ok1 = QInputDialog.getText(self, "Kelime Ekle", "İngilizce:")
             kelime_tr, ok2 = QInputDialog.getText(self, "Kelime Ekle", "Türkçe:")
             if ok1 and ok2 and kelime_eng and kelime_tr:
-                secilen.execute("INSERT INTO kelimeler (ingilizce, turkce) VALUES (%s, %s)", 
+            
+                    secilen.execute("INSERT INTO kelimeler (ingilizce, turkce) VALUES (%s, %s)", 
                                 (kelime_eng, kelime_tr))
-                vtb.commit()
-                QMessageBox.information(self, "Bilgi", "Kelime başarıyla eklendi ✅")
+                    vtb.commit()
+                    QMessageBox.information(self, "Bilgi", "Kelime başarıyla eklendi ✅")
+               
+                   
 
         def kelimeListele():
             secilen.execute("SELECT * FROM kelimeler")
