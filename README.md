@@ -19,7 +19,7 @@
 
 # Exe Dosyası
 ----------------
-
+<a href="">Exe dosyasına ulaşmak için tıklayınız.</a>
 
 # Giriş Ekranı
 ----------------
